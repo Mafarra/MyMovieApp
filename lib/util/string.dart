@@ -15,11 +15,13 @@ var introStartBtn = "Get Stared";
 //todo this for home page
 var nowHeader = "Now";
 var popularHeader = "Popular";
+var more = "More";
 //todo this for home page
 
 //todo this for details page
-var loremIpsom = "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy...";
-var cast ="Full Cast & Crew";
+var loremIpsom =
+    "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy...";
+var cast = "Full Cast & Crew";
 //todo this for details page
 
 //todo this for tv tab
@@ -30,3 +32,5 @@ var popular = "Popular";
 var profile = "Profile";
 var like = "Like";
 //todo this for profile page
+
+var getImageUrl = "https://image.tmdb.org/t/p/w500/";

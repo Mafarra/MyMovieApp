@@ -11,7 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<MovieProvider>(
       create: (context) => MovieProvider(),
       child: GetMaterialApp(
         debugShowCheckedModeBanner: false,

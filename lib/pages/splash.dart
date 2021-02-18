@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:movie_app_api/server/backend/api_manager.dart';
 import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/color.dart';
 import 'package:movie_app_api/util/style.dart';

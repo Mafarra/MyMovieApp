@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app_api/server/data/movie.dart';
-import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/color.dart';
 import 'package:movie_app_api/util/string.dart';
 import 'package:movie_app_api/util/style.dart';
 
-class NowItem extends StatelessWidget {
+class NowItemMore extends StatelessWidget {
   final Function fun;
   final Movie movie;
 
-  const NowItem({
+  const NowItemMore({
     Key key,
     this.fun,
     this.movie,
@@ -31,20 +30,13 @@ class NowItem extends StatelessWidget {
                 width: 175.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.w),
-                  color: colorTextDark,
+                  color: colorYalow,
                   boxShadow: [elevation],
-                  image: DecorationImage(
-                    image: NetworkImage("https://image.tmdb.org/t/p/w500${movie.posterPath}"),
-                    fit: BoxFit.cover,
-                  ),
                 ),
+                child: Center(child: Text(more , style: textWhiteWords,)),
               ),
               SizedBox(
                 height: 10.h,
-              ),
-              Text(
-                movie.title ?? "Justice League",
-                style: textSubTitleMovie.copyWith(fontSize: 15),
               ),
             ],
           ),

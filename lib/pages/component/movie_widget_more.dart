@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app_api/server/data/movie.dart';
 import 'package:movie_app_api/util/color.dart';
+import 'package:movie_app_api/util/string.dart';
 import 'package:movie_app_api/util/style.dart';
 
-class MovieWidget extends StatelessWidget {
+class MovieWidgetMore extends StatelessWidget {
   final Function fun;
   final Movie movie;
   final String image;
 
-  const MovieWidget({
+  const MovieWidgetMore({
     Key key,
     this.fun,
     this.movie,
@@ -25,13 +26,15 @@ class MovieWidget extends StatelessWidget {
         width: 320.w,
         height: 160.h,
         decoration: BoxDecoration(
-          color: colorTextDark,
+          color: colorYalow,
           borderRadius: BorderRadius.circular(10.w),
           boxShadow: [elevation],
-          image: DecorationImage(
-              image: image == null?NetworkImage(image ??
-                  "https://image.tmdb.org/t/p/w500/${movie.posterPath}") : AssetImage(image),
-              fit: BoxFit.fill),
+        ),
+        child: Center(
+          child: Text(
+            more,
+            style: textWhiteWords,
+          ),
         ),
       ),
     );

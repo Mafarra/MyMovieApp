@@ -3,13 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:movie_app_api/pages/component/custom_action_bar_back.dart';
+import 'package:movie_app_api/pages/component/now_item_tv_widget.dart';
 import 'package:movie_app_api/pages/detalies_movie_page.dart';
+import 'package:movie_app_api/server/provider/movie_provider.dart';
 import 'package:movie_app_api/util/string.dart';
 import 'package:movie_app_api/util/style.dart';
+import 'package:provider/provider.dart';
 
 import 'component/now_item_widget.dart';
 
 class AllViewMovieList extends StatelessWidget {
+  final String type;
+
+  const AllViewMovieList({Key key, this.type}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +34,7 @@ class AllViewMovieList extends StatelessWidget {
                   height: 10.h,
                 ),
                 Text(
-                  nowHeader,
+                  type ?? nowHeader,
                   style: textHeaderTitle,
                 ),
                 SizedBox(
@@ -41,13 +48,108 @@ class AllViewMovieList extends StatelessWidget {
                   crossAxisSpacing: 10.w,
                   mainAxisSpacing: 10.h,
                   childAspectRatio: 0.6,
-                  children: List.generate(100, (index) {
-                    return NowItem(
-                      fun: () {
-                        Get.to(DetailsMoviePage());
-                      },
-                    );
-                  }),
+                  children: type == "movies"
+                      ? List.generate(
+                          context.watch<MovieProvider>().nowPopular.length,
+                          (index) {
+                          return NowItem(
+                            movie: context
+                                .watch<MovieProvider>()
+                                .nowPopular[index],
+                            fun: () {
+                              Get.to(DetailsMoviePage(
+                                movie: context
+                                    .read<MovieProvider>()
+                                    .nowPopular[index],
+                              ));
+                            },
+                          );
+                        })
+                      : type == nowHeader
+                          ? List.generate(
+                              context
+                                  .watch<MovieProvider>()
+                                  .nowPlayingList
+                                  .length, (index) {
+                              return NowItem(
+                                movie: context
+                                    .read<MovieProvider>()
+                                    .nowPlayingList[index],
+                                fun: () {
+                                  Get.to(DetailsMoviePage(
+                                    movie: context
+                                        .read<MovieProvider>()
+                                        .nowPlayingList[index],
+                                  ));
+                                },
+                              );
+                            })
+                          : type == popularHeader
+                              ? List.generate(
+                                  context
+                                      .watch<MovieProvider>()
+                                      .upcomingList
+                                      .length, (index) {
+                                  return NowItem(
+                                    movie: context
+                                        .watch<MovieProvider>()
+                                        .upcomingList[index],
+                                    fun: () {
+                                      Get.to(DetailsMoviePage(
+                                        movie: context
+                                            .watch<MovieProvider>()
+                                            .upcomingList[index],
+                                      ));
+                                    },
+                                  );
+                                })
+                              : type == nowHeader + " Tv"
+                                  ? List.generate(
+                                      context
+                                          .watch<MovieProvider>()
+                                          .tvAiringTodayList
+                                          .length, (index) {
+                                      return NowTvItem(
+                                        movie: context
+                                            .watch<MovieProvider>()
+                                            .tvAiringTodayList[index],
+                                        fun: () {
+                                          Get.to(DetailsMoviePage(
+                                            tvShow: context
+                                                .watch<MovieProvider>()
+                                                .tvAiringTodayList[index],
+                                          ));
+                                        },
+                                      );
+                                    })
+                                  : type == popular + " Tv"
+                                      ? List.generate(
+                                          context
+                                              .watch<MovieProvider>()
+                                              .tvTvPopularList
+                                              .length,
+                                          (index) {
+                                            return NowTvItem(
+                                            movie:  context
+                                                .watch<MovieProvider>()
+                                                .tvTvPopularList[index],
+                                            fun: () {
+                                              Get.to(DetailsMoviePage(
+                                                tvShow: context
+                                                    .watch<MovieProvider>()
+                                                    .tvTvPopularList[index],
+                                              ),);
+                                            },
+                                          );
+                                          },
+                                        )
+                                      : List.generate(100, (index) {
+                                          return NowItem(
+                                            fun: () {
+                                              Get.to(DetailsMoviePage());
+                                            },
+                                          );
+                                        }),
                 ),
               ],
             ),

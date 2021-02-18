@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:movie_app_api/server/data/movie.dart';
+import 'package:movie_app_api/server/data/tv.dart';
 import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/color.dart';
 import 'package:movie_app_api/util/string.dart';
 import 'package:movie_app_api/util/style.dart';
 
-class NowItem extends StatelessWidget {
+class NowTvItem extends StatelessWidget {
   final Function fun;
-  final Movie movie;
+  final TvShow movie;
 
-  const NowItem({
+  const NowTvItem({
     Key key,
     this.fun,
     this.movie,
@@ -43,7 +44,7 @@ class NowItem extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                movie.title ?? "Justice League",
+                movie.title ?? movie.originalTitle ?? movie.overview.substring(0 , 20)??"Justice League",
                 style: textSubTitleMovie.copyWith(fontSize: 15),
               ),
             ],

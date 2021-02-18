@@ -13,3 +13,4 @@ var colorRedError = Colors.red.withOpacity(0.9);
 var colorTextDark = Color(0xff212121);
 var colorTextLight = Color(0xff666666);
 var colorIcon = Color(0xff999999);
+var colorYalow = Color(0xffF5D547);

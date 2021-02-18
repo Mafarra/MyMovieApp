@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movie_app_api/pages/tab_home.dart';
 import 'package:movie_app_api/pages/tab_profile.dart';
 import 'package:movie_app_api/pages/tab_tv.dart';
+import 'package:movie_app_api/server/backend/api_manager.dart';
 import 'package:movie_app_api/server/provider/movie_provider.dart';
 import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/color.dart';
@@ -23,7 +24,6 @@ class _HomePageState extends State<HomePage>
   void initState() {
     super.initState();
     _controller = TabController(length: 3, vsync: this);
-
   }
 
   @override
