@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:movie_app_api/pages/component/full_width_widget.dart';
 import 'package:movie_app_api/pages/component/now_item_more_widget.dart';
 import 'package:movie_app_api/pages/component/now_item_tv_widget.dart';
 import 'package:movie_app_api/pages/detalies_movie_page.dart';
 import 'package:movie_app_api/server/backend/api_manager.dart';
+import 'package:movie_app_api/server/data/tv.dart';
 import 'package:movie_app_api/server/provider/movie_provider.dart';
 import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/string.dart';
@@ -26,7 +26,7 @@ class _TabTvState extends State<TabTv> {
   @override
   void initState() {
     super.initState();
-    getTvAiringToday(1);
+    getTvAiringToday(2);
     getTvPopular(1);
   }
 
@@ -56,7 +56,7 @@ class _TabTvState extends State<TabTv> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      nowHeader+" Tv",
+                      nowHeader + " Tv",
                       style: textHeaderTitle,
                     ),
                     SizedBox(
@@ -68,18 +68,23 @@ class _TabTvState extends State<TabTv> {
                         scrollDirection: Axis.horizontal,
                         itemCount: value.tvAiringTodayList.length,
                         itemBuilder: (context, index) {
-                          return (value.tvAiringTodayList.isNotEmpty &&
-                                  value.tvAiringTodayList.length - 1 == index)
+                          if (value.tvAiringTodayList.isEmpty) {
+                            return Center(child: CircularProgressIndicator(),);
+                          }
+                          List<TvShow> list = value.tvAiringTodayList;
+
+                          return (list.isNotEmpty &&
+                              list.length - 1 == index)
                               ? NowItemMore(
                                   fun: () => Get.to(AllViewMovieList(
-                                    type: nowHeader+" Tv",
+                                    type: nowHeader + " Tv",
                                   )),
                                 )
                               : NowTvItem(
                                   fun: () => Get.to(DetailsMoviePage(
-                                    tvShow: value.tvAiringTodayList[index],
+                                    tvShow: list[index],
                                   )),
-                                  movie: value.tvAiringTodayList[index],
+                                  movie: list[index],
                                 );
                         },
                       ),
@@ -91,7 +96,7 @@ class _TabTvState extends State<TabTv> {
                 height: 20.h,
               ),
               Text(
-                popular+" Tv",
+                popular + " Tv",
                 style: textHeaderTitle,
               ),
               SizedBox(
@@ -107,11 +112,13 @@ class _TabTvState extends State<TabTv> {
                   return (value.tvTvPopularList.isNotEmpty &&
                           value.tvTvPopularList.length - 1 == index)
                       ? FullWidthMoreWidget(
-                          fun: () => Get.to(AllViewMovieList(type: popular+" Tv",)),
+                          fun: () => Get.to(AllViewMovieList(
+                            type: popular + " Tv",
+                          )),
                         )
                       : FullWidthWidget(
                           fun: () => Get.to(DetailsMoviePage(
-                            tvShow:value.tvTvPopularList[index] ,
+                            tvShow: value.tvTvPopularList[index],
                           )),
                           tvShow: value.tvTvPopularList[index],
                         );

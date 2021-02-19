@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:movie_app_api/server/data/cast.dart';
 import 'package:movie_app_api/server/data/movie.dart';
 import 'package:movie_app_api/server/data/tv.dart';
+import 'package:movie_app_api/server/data/video.dart';
 import 'package:movie_app_api/server/provider/movie_provider.dart';
 import 'package:movie_app_api/util/custom_dialog.dart';
 import 'package:movie_app_api/util/custom_progres_dialog.dart';
@@ -115,6 +116,7 @@ getTvAiringToday(int pages) async {
       List<TvShow> list = results.map((e) => TvShow.fromJson(e)).toList();
       Provider.of<MovieProvider>(Get.context, listen: false)
           .setTvAiringTodayList(list);
+      logger.d(map);
       CustomeProgress.pr.dismiss();
     } else {
       logger.e(response.body);
@@ -167,6 +169,34 @@ getCastPerson(int id) async {
       List<Cast> listCasts = results.map((e) => Cast.fromJson(e)).toList();
       Provider.of<MovieProvider>(Get.context, listen: false)
           .setListCastsPerson(listCasts);
+      CustomeProgress.pr.dismiss();
+    } else {
+      logger.e(response.body);
+      CustomeProgress.pr.dismiss();
+      CustomDialoug.showDialoug("Error", map["status_message"]);
+    }
+  } catch (e) {
+    logger.e(e.toString());
+    CustomeProgress.pr.dismiss();
+    CustomDialoug.showDialoug("Error", e.toString());
+  }
+}
+
+//todo this for video
+getVideo(int viewId) async {
+  String url = "${baseUrl}movie/$viewId/videos?$api_key";
+  try {
+    Future.delayed(Duration.zero).then((value) => CustomeProgress.pr.show());
+    http.Response response = await http.get(url);
+    Map map = {};
+    if (response.statusCode == 200) {
+      map = json.decode(response.body);
+      List result = map["results"];
+      List<VideoData> listVideoData =
+          result.map((e) => VideoData.fromJson(e)).toList();
+      Provider.of<MovieProvider>(Get.context, listen: false)
+          .setListVideoData(listVideoData);
+      Logger().e(map);
       CustomeProgress.pr.dismiss();
     } else {
       logger.e(response.body);

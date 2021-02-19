@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:movie_app_api/server/data/movie.dart';
 import 'package:movie_app_api/server/data/tv.dart';
-import 'package:video_player/video_player.dart';
+import 'package:movie_app_api/server/data/video.dart';
+import 'package:movie_app_api/server/provider/movie_provider.dart';
+import 'package:movie_app_api/util/app_shaerd_data.dart';
+import 'package:movie_app_api/util/color.dart';
+import 'package:movie_app_api/util/style.dart';
+import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import 'component/youtube.dart';
 
 class VideoPlayers extends StatefulWidget {
   final Movie movie;
@@ -18,48 +28,50 @@ class VideoPlayers extends StatefulWidget {
 }
 
 class _VideoPlayersState extends State<VideoPlayers> {
-  VideoPlayerController _controller;
+  YoutubePlayerController _controller;
+  bool _isPlayerReady = false;
+  PlayerState _playerState;
+  YoutubeMetaData _videoMetaData;
+  String videoId = "iLnmTe5Q2Qw";
 
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.network(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4') /*http://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4*/
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _controller.value.initialized
-            ? AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
-              )
-            : Container(),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+    context.watch<MovieProvider>().listVideoData;
+    safeAreaLight;
+    return WillPopScope(
+      onWillPop: () {
+        Get.back();
+        return Future.value(true);
+      },
+      child: Selector<MovieProvider, List<VideoData>>(
+        selector: (x, y) => y.listVideoData,
+        builder: (context, value, child) => Scaffold(
+          body: SingleChildScrollView(
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 4.w ,vertical: 34.h),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                if(value == null){
+                  return Center(child: ErrorWidget.withDetails(message: "Error 404", error:FlutterError("there are error"),),);
+                }
+                return YoutubeItem(
+                  /*controller: _controller,
+                  isPlayerReady: _isPlayerReady,*/
+                  videoData: value[index],
+                );
+              },
+              itemCount: value.length,
+            ),
+          ),
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller.dispose();
-  }
+
+
+
 }
+

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:movie_app_api/server/data/cast.dart';
 import 'package:movie_app_api/server/data/movie.dart';
 import 'package:movie_app_api/server/data/tv.dart';
+import 'package:movie_app_api/server/data/video.dart';
 
 class MovieProvider extends ChangeNotifier {
   int currentIndex = 0;
@@ -11,8 +12,14 @@ class MovieProvider extends ChangeNotifier {
   List<TvShow> tvAiringTodayList = [];
   List<TvShow> tvTvPopularList = [];
   List<Cast> personListCast = [];
+  List<VideoData> listVideoData = [];
 
-  setListCastsPerson(List<Cast> personListCast){
+  setListVideoData(List<VideoData> listVideoData) {
+    this.listVideoData = listVideoData;
+    notifyListeners();
+  }
+
+  setListCastsPerson(List<Cast> personListCast) {
     this.personListCast = personListCast;
     notifyListeners();
   }

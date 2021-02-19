@@ -22,6 +22,9 @@ var more = "More";
 var loremIpsom =
     "Fueled by his restored faith in humanity and inspired by Superman's selfless act, Bruce Wayne enlists the help of his newfound ally, Diana Prince, to face an even greater enemy...";
 var cast = "Full Cast & Crew";
+var likes = "LIKE";
+var FAVORITE = "FAVORITE";
+var COMMNET = "COMMNET";
 //todo this for details page
 
 //todo this for tv tab
@@ -34,3 +37,5 @@ var like = "Like";
 //todo this for profile page
 
 var getImageUrl = "https://image.tmdb.org/t/p/w500/";
+
+

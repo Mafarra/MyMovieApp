@@ -13,11 +13,12 @@ import 'package:movie_app_api/server/data/tv.dart';
 import 'package:movie_app_api/server/provider/movie_provider.dart';
 import 'package:movie_app_api/util/app_shaerd_data.dart';
 import 'package:movie_app_api/util/color.dart';
+import 'package:movie_app_api/util/custom_dialog.dart';
 import 'package:movie_app_api/util/string.dart';
 import 'package:movie_app_api/util/style.dart';
 import 'package:provider/provider.dart';
 
-import 'all_view_movie_list.dart';
+import 'component/bottom_btn.dart';
 
 class DetailsMoviePage extends StatefulWidget {
   final Movie movie;
@@ -41,6 +42,7 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
     screenUtil(context);
     context.watch<MovieProvider>().personListCast;
     return Scaffold(
+      backgroundColor: Color(0xffFFFFFF),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,6 +56,7 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
                     height: 300.h,
                     width: double.infinity,
                     decoration: BoxDecoration(
+                      boxShadow: [elevation],
                       image: DecorationImage(
                         image: NetworkImage(
                             "${getImageUrl}${widget.movie == null ? widget.tvShow.posterPath : widget.movie.posterPath}"),
@@ -87,10 +90,22 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
                           height: 60.h,
                         ),
                         GestureDetector(
-                          onTap: () => Get.to(VideoPlayers(
-                            movie:  widget.movie,
-                            tvShow:  widget.tvShow,
-                          )),
+                          onTap: () async {
+                            await getVideo(widget.movie == null
+                                ? widget.tvShow.id
+                                : widget.movie.id);
+                            if (context
+                                .read<MovieProvider>()
+                                .listVideoData
+                                .isEmpty) {
+                              CustomDialoug.showDialoug("No Video", "there is no video");
+                              return;
+                            }
+                            return Get.to(VideoPlayers(
+                              movie: widget.movie,
+                              tvShow: widget.tvShow,
+                            ));
+                          },
                           child: Center(
                             child: SvgPicture.asset("assets/svg/play_btn.svg"),
                           ),
@@ -218,7 +233,7 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) => CastItem(
                                 cast: value[index],
-                                fun: () => Get.to(AllViewMovieList()),
+                                /* fun: () => Get.to(AllViewMovieList()),*/
                               ),
                             ),
                           ),
@@ -226,7 +241,26 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
                       ),
                     ),
                   ),
+
                 ],
+              ),
+            ),
+
+            Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(vertical: 20.h),
+              decoration: BoxDecoration(
+                color: Color(0xffF8F8F8),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    BottomBtn(title: likes, imagePath: "assets/svg/like.svg" ,),
+                    BottomBtn(title: FAVORITE, imagePath: "assets/svg/star.svg",),
+                    BottomBtn( title: COMMNET,imagePath: "assets/svg/commit.svg",),
+                  ],
+                ),
               ),
             ),
           ],
@@ -235,3 +269,5 @@ class _DetailsMoviePageState extends State<DetailsMoviePage> {
     );
   }
 }
+
+
