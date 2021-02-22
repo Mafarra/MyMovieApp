@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _controller = TabController(length: 3, vsync: this);
+    _controller = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage>
       body: TabBarView(controller: _controller, children: [
         TabHome(),
         TabTv(),
-        TabProfile(),
+        //TabProfile(),
       ]),
       bottomNavigationBar: Selector<MovieProvider, int>(
         selector: (x, y) => y.currentIndex,
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 label: "TV"),
-            BottomNavigationBarItem(
+           /* BottomNavigationBarItem(
                 icon: Padding(
                   padding: EdgeInsets.all(4.w),
                   child: SvgPicture.asset(
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage>
                     color: value == 2 ? colorPrimaryColor : colorIcon,
                   ),
                 ),
-                label: "PROFILE"),
+                label: "PROFILE"),*/
           ],
         ),
       ),

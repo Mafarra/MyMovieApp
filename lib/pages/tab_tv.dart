@@ -26,7 +26,7 @@ class _TabTvState extends State<TabTv> {
   @override
   void initState() {
     super.initState();
-    getTvAiringToday(2);
+    getTvAiringToday(1);
     getTvPopular(1);
   }
 
@@ -73,8 +73,8 @@ class _TabTvState extends State<TabTv> {
                           }
                           List<TvShow> list = value.tvAiringTodayList;
 
-                          return (list.isNotEmpty &&
-                              list.length - 1 == index)
+                          return (value.tvAiringTodayList.isNotEmpty &&
+                              value.tvAiringTodayList.length - 1 == index)
                               ? NowItemMore(
                                   fun: () => Get.to(AllViewMovieList(
                                     type: nowHeader + " Tv",
@@ -82,9 +82,9 @@ class _TabTvState extends State<TabTv> {
                                 )
                               : NowTvItem(
                                   fun: () => Get.to(DetailsMoviePage(
-                                    tvShow: list[index],
+                                    tvShow:  value.tvAiringTodayList[index],
                                   )),
-                                  movie: list[index],
+                                  movie:  value.tvAiringTodayList[index],
                                 );
                         },
                       ),

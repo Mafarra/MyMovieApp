@@ -62,7 +62,6 @@ class _AllViewMovieListState extends State<AllViewMovieList> {
               } else if (widget.type == popularHeader) {
                 getUpcoming(pages++);
               } else if (widget.type == nowHeader + " Tv") {
-                pages=2;
                 getTvAiringToday(pages++);
               } else if (widget.type == popular + " Tv") {
                 getTvPopular(pages++);

@@ -47,7 +47,7 @@ class FullWidthWidget extends StatelessWidget {
               ),
             ),
             Text(
-              tvShow.title ?? tvShow.originalTitle ?? tvShow.overview.substring(0 , 30)??"Justice League",
+              tvShow.title ?? tvShow.originalTitle ?? (tvShow.overview.length > 30) ?tvShow.overview.substring(0 , 30):tvShow.overview??"Justice League",
               style: textSubTitleMovie,
             ),
           ],

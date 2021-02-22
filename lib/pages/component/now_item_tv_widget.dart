@@ -44,7 +44,7 @@ class NowTvItem extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                movie.title ?? movie.originalTitle ?? movie.overview.substring(0 , 20)??"Justice League",
+                movie.title ?? movie.originalTitle ?? (movie.overview.length >20)? movie.overview.substring(0 , 20):movie.overview??"Justice League",
                 style: textSubTitleMovie.copyWith(fontSize: 15),
               ),
             ],
